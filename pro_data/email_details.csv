@@ -1,0 +1,9 @@
+email_id,activity_id,to,from,size,attachments,recipient_domain,has_external_recipient,has_attachment,send_frequency,is_large_email
+67ba183e-0482-48ea-8a8e-e771e8f1bdcd,{R3I7-S4TX96FG-8219JWFF},Dean.Flynn.Hines@dtaa.com;Wade_Harrison@lockheedmartin.com,Lynn.Adena.Pratt@dtaa.com,25830,0,lockheedmartin.com,True,False,,False
+11f954f1-f7f8-4564-bbcd-9ef77893a29e,{R0R9-E4GL59IK-2907OSWJ},Odonnell-Gage@bellsouth.net,MOH68@optonline.net,29942,0,bellsouth.net,True,False,,False
+857ea8fb-8d41-47bf-91d1-c1b2cb964e61,{G2B2-A8XY58CP-2847ZJZL},Penelope_Colon@netzero.com,Lynn_A_Pratt@earthlink.net,28780,0,netzero.com,True,False,75.0,False
+566cb011-741c-49c5-ac88-b8b56905eb05,{A3A9-F4TH89AA-8318GFGK},Judith_Hayden@comcast.net,Lynn_A_Pratt@earthlink.net,21907,0,comcast.net,True,False,17.0,False
+e96ee236-bdaf-4274-9529-b538f3c55bd0,{E8B7-C8FZ88UF-2946RUQQ},Bond-Raymond@verizon.net;Alea_Ferrell@msn.com;Jane_Mcdonald@juno.com,MOH68@optonline.net,17319,0,juno.com,True,False,72.0,False
+864e04a1-d8ca-4090-86fb-60f74ecee176,{X8T7-A6BT54FP-7241DLBV},Gaines-Joseph@msn.com,Hollee_Becker@hotmail.com,44345,0,msn.com,True,False,,False
+3d19d38e-965a-4a65-a628-4023359b4fcc,{H5J6-G2RS59KI-8386FFLL},Heidi_Wilson@msn.com;Rowan_N_Parks@juno.com,Noelani.W.Kennedy@optonline.net,35328,0,juno.com,True,False,,False
+5f0d7cce-016a-4624-86c4-50f96ea819f5,{D9T8-M1HJ89XP-6364INQJ},Eve.Isadora.Mckenzie@dtaa.com,Libby.Rosalyn.Richard@dtaa.com,25255,1,dtaa.com,True,True,,False
