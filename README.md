@@ -294,6 +294,7 @@ WHERE importance_level >= :threshold
 6. `/api/graph/filter`: 数据过滤API
 7. `/api/graph/mark`: 标记节点和边API
 8. `/api/graph/visibility`: 控制节点可见性API
+![image](https://github.com/user-attachments/assets/274f70c9-7681-48ea-8823-203b8ea3e568)
 
 ## 10. **开源贡献与联系方式**
 - **贡献指南**：遵循Fork-and-Pull Request工作流。
