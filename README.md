@@ -256,7 +256,7 @@ JOIN UserGroups ug ON FIND_IN_SET(ur.user_id_1, ug.group_members) AND FIND_IN_SE
 WHERE ug.group_id = :group_id;
 ```
 
-### 3.6 高效分析
+### 高效分析
 
 #### 数据过滤
 
