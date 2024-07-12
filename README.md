@@ -50,11 +50,6 @@
 - **时序分析**：研究关系网络随时间的演变。
 - **异常检测算法开发**：自动标记可疑交互模式。
 
-## 10. **开源贡献与联系方式**
-- **贡献指南**：遵循Fork-and-Pull Request工作流。
-- **许可证**：项目采用MIT许可证。
-- **联系方式**：项目维护者[@jerry609](https://github.com/jerry609)。
-
 ## 其他
 ## 1. 用户和组织模块
 
@@ -300,3 +295,7 @@ WHERE importance_level >= :threshold
 7. `/api/graph/mark`: 标记节点和边API
 8. `/api/graph/visibility`: 控制节点可见性API
 
+## 10. **开源贡献与联系方式**
+- **贡献指南**：遵循Fork-and-Pull Request工作流。
+- **许可证**：项目采用MIT许可证。
+- **联系方式**：项目维护者[@jerry609](https://github.com/jerry609)。
