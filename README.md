@@ -1,39 +1,67 @@
 # 用户行为数据处理与分析系统
 
-## 1. 项目概述
+这是一个关于用户行为数据处理与分析系统的综合概述，涉及系统的主要特性、架构、数据表设计，以及功能实现。这个系统不仅适用于社交网络数据分析，也可以广泛应用于金融和电商等领域。
 
-本项目旨在处理和分析用户行为数据，支持异常用户行为检测和社交网络分析。系统处理多种类型的用户活动数据，包括HTTP访问、文件操作、电子邮件活动等，并提供用户关系和交互分析功能。目前使用的是开源数据集CMU-CERT R4.2版本。
+## 1. **项目概述**
+- **目的**：处理和分析用户行为数据，包括异常行为检测和社交网络分析。
+- **数据源**：使用CMU-CERT R4.2版本开源数据集。
+- **数据类型**：处理HTTP访问、文件操作、电子邮件活动等多种类型的用户活动数据。
 
-## 2. 功能特性
+## 2. **系统功能**
+- **用户信息管理**：处理组织结构和心理测评数据。
+- **用户关系网络分析**：分析和可视化用户间的关系。
+- **多类型活动记录和分析**：记录和分析包括电子邮件、文件操作、HTTP访问在内的用户活动。
+- **异常行为检测**：为异常行为检测准备和处理特征数据。
 
-- 用户信息管理，包括组织结构和心理测评数据
-- 用户关系网络分析
-- 多种类型的用户活动记录和分析
-- 电子邮件、文件操作和HTTP访问的详细信息处理
-- 用户交互数据生成和分析
-- 为异常行为检测准备特征数据
+## 3. **系统要求**
+- **开发环境**：Python 3.7+，pandas 1.0+，MySQL 5.7+ 或其他兼容的关系型数据库。
 
-## 3. 系统要求
+## 4. **系统架构与数据库设计**
+- **模块划分**：用户和组织模块、活动记录模块、交互分析模块。
+- **核心数据表**：User、UserRelations、Activity、EmailDetails、FileDetails、HttpDetails、Interaction。
+- **数据库结构**：详细设计表格以存储用户信息、活动记录、电子邮件详情等。
 
-- Python 3.7+
-- pandas 1.0+
-- MySQL 5.7+ 或其他兼容的关系型数据库
-- 。。。（未完待续）
+## 5. **数据处理流程**
+- **数据收集**：从多个源系统收集数据。
+- **数据清洗**：处理数据中的缺失值和异常值。
+- **数据集成**：整合来自不同来源的数据到统一的数据库中。
 
-## 4. 系统架构
+## 6. **图分析系统设计**
+- **G6图可视化引擎应用**：利用G6进行关系网络的可视化和分析。
+- **功能实现**：
+  - **关系扩散**：使用递归查询实现多度关系扩散。
+  - **关系预判**：基于现有数据，使用机器学习算法预测潜在关系。
+  - **关系聚合**：将同类型关系聚合显示，减少视觉干扰。
+  - **圈检测**：使用图算法检测和标识闭合关系圈。
+  - **圈查询**：查询特定的用户关系圈和成员之间的交互。
+  - **高效分析**：实现数据过滤，标记重要节点和边，以及动态显示或隐藏节点和标签。
 
-系统分为三个主要模块：
+## 7. **API设计**
+- **接口功能**：包括关系扩散、关系预判、数据过滤等。
+- **安全措施**：采用HTTPS，实现细粒度访问控制，防止SQL注入。
 
-1. 用户和组织模块
-2. 活动记录模块
-3. 交互分析模块
+## 8. **性能优化**
+- **数据索引**：为常用查询字段建立索引。
+- **数据缓存**：使用Redis缓存常用的图结构数据。
+- **按需加载**：对大规模图进行数据分片和按需加载。
 
-### 4.1 数据库结构
+## 9. **未来扩展**
+- **NLP技术集成**：分析文本内容提取关键信息。
+- **时序分析**：研究关系网络随时间的演变。
+- **异常检测算法开发**：自动标记可疑交互模式。
 
-#### User表
+## 10. **开源贡献与联系方式**
+- **贡献指南**：遵循Fork-and-Pull Request工作流。
+- **许可证**：项目采用MIT许可证。
+- **联系方式**：项目维护者[@jerry609](https://github.com/jerry609)。
+
+## 其他
+## 1. 用户和组织模块
+
+### User表
 
 | 字段名        | 数据类型  | 描述                     |
-|---------------|-----------|--------------------------|
+| ------------- | --------- | ------------------------ |
 | user_id       | VARCHAR   | 主键, 用户唯一标识符     |
 | employee_name | VARCHAR   | 员工姓名                 |
 | email         | VARCHAR   | 员工电子邮件             |
@@ -51,20 +79,28 @@
 | join_date     | DATE      | 用户加入组织的日期       |
 | last_active   | TIMESTAMP | 用户最后活动时间         |
 
-#### UserRelations表
+**解释**：
+User表是整个系统的核心表，它存储了所有用户的基本信息、组织结构信息以及心理测评结果。这个表合并了原来的DepartmentInfo和Psychometric表的信息，提供了一个统一的用户视图。每个用户都有一个唯一的user_id作为主键。表中包含了用户的个人信息（如姓名、邮箱）、组织信息（如部门、团队、主管）以及心理测评得分。新增的join_date和last_active字段有助于分析用户的活跃度和在职时长。
+
+### UserRelations表
 
 | 字段名        | 数据类型 | 描述                             |
-|---------------|----------|----------------------------------|
+| ------------- | -------- | -------------------------------- |
 | relation_id   | VARCHAR  | 主键，关系唯一标识符             |
 | user_id_1     | VARCHAR  | 外键，关联到User表               |
 | user_id_2     | VARCHAR  | 外键，关联到User表               |
 | relation_type | VARCHAR  | 关系类型（如同事、上下级等）     |
 | strength      | FLOAT    | 关系强度（可以基于交互频率计算） |
 
-#### Activity表
+**解释**：
+UserRelations表是为了支持社交网络分析而新增的表。它记录了用户之间的各种关系。每个关系都有一个唯一的relation_id作为主键，并通过user_id_1和user_id_2与User表关联。relation_type字段描述了关系的性质，而strength字段量化了关系的强度，这可以基于用户之间的交互频率来计算。
+
+## 2. 活动记录模块
+
+### Activity表
 
 | 字段名         | 数据类型  | 描述                                                   |
-|----------------|-----------|--------------------------------------------------------|
+| -------------- | --------- | ------------------------------------------------------ |
 | activity_id    | VARCHAR   | 主键, 活动唯一标识符                                   |
 | datetime       | TIMESTAMP | 事件发生的日期和时间                                   |
 | user_id        | VARCHAR   | 外键, 关联到User表                                     |
@@ -77,52 +113,54 @@
 | correlated_id  | VARCHAR   | 关联ID(用于关联相关活动)                               |
 | target_user_id | VARCHAR   | 活动涉及的目标用户（如有）                             |
 
-#### EmailDetails表
+**解释**：
+Activity表记录了系统中所有用户的活动。这个表整合了原来的UserActivity、EmailActivity、FileActivity和HttpActivity表的通用字段。每个活动都有一个唯一的activity_id作为主键，并通过user_id与User表关联。表中记录了活动的基本信息，如发生时间、地点、设备信息等。activity_type字段指明了活动的类型，而action_details字段可以存储更详细的活动信息。risk_level字段有助于快速识别潜在的高风险活动。新增的target_user_id字段用于记录活动涉及的其他用户，这对于社交网络分析很有帮助。
 
-| 字段名                  | 数据类型 | 描述                   |
-|-------------------------|----------|------------------------|
-| email_id                | VARCHAR  | 主键, 邮件唯一标识符   |
-| activity_id             | VARCHAR  | 外键, 关联到Activity表 |
-| email_to                | TEXT     | 收件人列表             |
-| email_from              | VARCHAR  | 发件人                 |
-| email_size              | INT      | 电子邮件大小(字节)     |
-| email_attachments       | INT      | 附件数量               |
-| email_content_hash      | VARCHAR  | 邮件内容的哈希值       |
-| recipient_domain        | VARCHAR  | 收件人域名             |
-| has_external_recipient  | BOOLEAN  | 是否有外部收件人       |
-| send_frequency          | FLOAT    | 发送频率               |
-| is_large_email          | BOOLEAN  | 是否为大型邮件         |
+### EmailDetails表
 
-#### FileDetails表
+| 字段名             | 数据类型 | 描述                   |
+| ------------------ | -------- | ---------------------- |
+| email_id           | VARCHAR  | 主键, 邮件唯一标识符   |
+| activity_id        | VARCHAR  | 外键, 关联到Activity表 |
+| email_to           | TEXT     | 收件人列表             |
+| email_from         | VARCHAR  | 发件人                 |
+| email_size         | INT      | 电子邮件大小(字节)     |
+| email_attachments  | INT      | 附件数量               |
+| email_content_hash | VARCHAR  | 邮件内容的哈希值       |
 
-| 字段名               | 数据类型 | 描述                   |
-|----------------------|----------|------------------------|
-| file_id              | VARCHAR  | 主键, 文件唯一标识符   |
-| activity_id          | VARCHAR  | 外键, 关联到Activity表 |
-| filename             | VARCHAR  | 文件名                 |
-| file_extension       | VARCHAR  | 文件扩展名             |
-| file_content_hash    | VARCHAR  | 文件内容的哈希值       |
-| is_sensitive_type    | BOOLEAN  | 是否为敏感文件类型     |
-| operation_frequency  | FLOAT    | 文件操作频率           |
+**解释**：
+EmailDetails表存储了与邮件活动相关的详细信息。每封邮件都有一个唯一的email_id作为主键，并通过activity_id与Activity表关联。这个表记录了邮件的收发人、大小、附件数量等信息。email_content_hash字段存储了邮件内容的哈希值，这有助于识别重复或类似的邮件，同时保护了邮件的实际内容。
 
-#### HttpDetails表
+### FileDetails表
 
-| 字段名                      | 数据类型 | 描述                     |
-|-----------------------------|----------|--------------------------|
-| http_id                     | VARCHAR  | 主键, HTTP访问唯一标识符 |
-| activity_id                 | VARCHAR  | 外键, 关联到Activity表   |
-| url                         | TEXT     | 访问的URL                |
-| domain                      | VARCHAR  | URL的域名                |
-| path                        | TEXT     | URL的路径                |
-| query                       | TEXT     | URL的查询参数            |
-| url_content_hash            | VARCHAR  | URL内容的哈希值          |
-| contains_sensitive_keywords | BOOLEAN  | 是否包含敏感关键词       |
-| visit_frequency             | FLOAT    | 访问频率                 |
+| 字段名            | 数据类型 | 描述                   |
+| ----------------- | -------- | ---------------------- |
+| file_id           | VARCHAR  | 主键, 文件唯一标识符   |
+| activity_id       | VARCHAR  | 外键, 关联到Activity表 |
+| filename          | VARCHAR  | 文件名                 |
+| file_content_hash | VARCHAR  | 文件内容的哈希值       |
 
-#### Interaction表
+**解释**：
+FileDetails表存储了与文件操作相关的详细信息。每个文件操作都有一个唯一的file_id作为主键，并通过activity_id与Activity表关联。这个表记录了文件的名称和内容哈希值。使用内容哈希而不是存储实际文件路径可以提高安全性，并且便于检测重复或修改过的文件。
+
+### HttpDetails表
+
+| 字段名           | 数据类型 | 描述                     |
+| ---------------- | -------- | ------------------------ |
+| http_id          | VARCHAR  | 主键, HTTP访问唯一标识符 |
+| activity_id      | VARCHAR  | 外键, 关联到Activity表   |
+| url              | TEXT     | 访问的URL                |
+| url_content_hash | VARCHAR  | URL内容的哈希值          |
+
+**解释**：
+HttpDetails表存储了与HTTP访问相关的详细信息。每次HTTP访问都有一个唯一的http_id作为主键，并通过activity_id与Activity表关联。这个表记录了访问的URL和URL内容的哈希值。url_content_hash字段可以帮助识别重复访问或检测内容变化。
+
+## 3. 交互分析模块
+
+### Interaction表
 
 | 字段名           | 数据类型  | 描述                           |
-|------------------|-----------|--------------------------------|
+| ---------------- | --------- | ------------------------------ |
 | interaction_id   | VARCHAR   | 主键，交互唯一标识符           |
 | from_user_id     | VARCHAR   | 外键，发起交互的用户           |
 | to_user_id       | VARCHAR   | 外键，接收交互的用户           |
@@ -130,80 +168,153 @@
 | interaction_type | VARCHAR   | 交互类型（如邮件、文件共享等） |
 | timestamp        | TIMESTAMP | 交互发生的时间                 |
 
-## 5. 数据处理流程
+**解释**：
+Interaction表是为了支持社交网络分析而新增的表。它记录了用户之间的具体交互。每次交互都有一个唯一的interaction_id作为主键。from_user_id和to_user_id字段指明了交互的发起者和接收者，activity_id关联到具体的活动记录。interaction_type描述了交互的类型，这有助于分析不同类型交互的模式和频率。
 
-1. 数据收集：从各种源系统收集原始数据。
-2. 数据清洗：处理缺失值、异常值，统一数据格式。
-3. 数据集成：将不同来源的数据整合到统一的活动记录中。
-4. 特征提取：从原始数据中提取有助于异常检测的特征。
-5. 数据存储：将处理后的数据存入相应的数据库表中。
+# 图分析系统设计文档
 
-## 6. 异常行为检测
+## 1. 系统概述
 
-系统支持多种异常行为检测方法：
+本系统旨在利用设计的数据库结构,结合G6图可视化引擎的强大功能,构建一个专注于关系数据展示与分析的重型图分析应用。该系统不仅适用于社交网络数据分析,还可广泛应用于金融、电商等领域。
 
-1. 基于规则的检测：设定阈值和规则，识别违反预定义模式的行为。
-2. 统计分析：使用统计方法识别偏离正常分布的行为。
-3. 机器学习模型：使用监督或非监督学习算法来检测异常模式。
-4. 时间序列分析：检测用户行为随时间变化的异常模式。
+## 2. 数据库设计
 
-## 7. 社交网络分析
+系统的核心数据库设计包括以下主要表格:
 
-利用UserRelations表和Interaction表进行社交网络分析：
+1. User表:存储用户基本信息、组织结构信息及心理测评结果
+2. UserRelations表:记录用户之间的各种关系
+3. Activity表:记录系统中所有用户的活动
+4. EmailDetails表:存储邮件活动的详细信息
+5. FileDetails表:存储文件操作的详细信息
+6. HttpDetails表:存储HTTP访问的详细信息
+7. Interaction表:记录用户之间的具体交互
 
-1. 关系强度计算：基于交互频率和类型计算用户间的关系强度。
-2. 社交图谱构建：可视化用户间的关系网络。
-3. 影响力分析：识别网络中的关键节点和影响者。
-4. 群体检测：发现和分析用户群体或团队。
+## G6功能实现
 
-## 8. 风险评估
+### 关系扩散
 
-Activity表中的risk_level字段用于快速识别高风险活动：
+**实现方式**:
+- 利用User表和UserRelations表构建初始关系网络
+- 通过递归查询UserRelations表,实现1-6度的关系扩散
+- 使用Activity表和Interaction表补充节点间的交互信息
 
-1. 低风险：正常的日常活动。
-2. 中风险：需要关注但不立即危险的活动。
-3. 高风险：可能表示严重安全威胁的活动。
+**SQL示例**:
+```sql
+WITH RECURSIVE relation_tree AS (
+  SELECT user_id_1, user_id_2, 1 AS depth
+  FROM UserRelations
+  WHERE user_id_1 = :start_user_id
+  UNION ALL
+  SELECT ur.user_id_1, ur.user_id_2, rt.depth + 1
+  FROM UserRelations ur
+  JOIN relation_tree rt ON ur.user_id_1 = rt.user_id_2
+  WHERE rt.depth < 6
+)
+SELECT DISTINCT u.* 
+FROM relation_tree rt
+JOIN User u ON rt.user_id_2 = u.user_id
+ORDER BY rt.depth;
+```
 
-## 9. 系统使用指南
+### 关系预判
 
-1. 数据导入：使用ETL工具或自定义脚本将数据导入各个表中。
-2. 数据查询：可以使用SQL查询或专门的分析工具来检索和分析数据。
-3. 异常检测：定期运行异常检测算法，识别潜在的异常行为。
-4. 报告生成：生成日常活动报告、异常行为报告和社交网络分析报告。
+**实现方式**:
+- 基于UserRelations表和Interaction表的数据,使用机器学习算法预测潜在关系
+- 在G6图上添加预测边,观察网络变化
 
-## 10. 安全和隐私
+**模型训练数据准备示例**:
+```sql
+SELECT 
+  ur.user_id_1, 
+  ur.user_id_2, 
+  COUNT(i.interaction_id) as interaction_count,
+  AVG(DATEDIFF(i.timestamp, LAG(i.timestamp) OVER (PARTITION BY i.from_user_id, i.to_user_id ORDER BY i.timestamp))) as avg_interaction_interval
+FROM UserRelations ur
+LEFT JOIN Interaction i ON (ur.user_id_1 = i.from_user_id AND ur.user_id_2 = i.to_user_id)
+GROUP BY ur.user_id_1, ur.user_id_2;
+```
 
-1. 数据加密：确保敏感数据（如邮件内容）使用强加密存储。
-2. 访问控制：实施严格的访问控制策略，确保只有授权人员可以访问敏感数据。
-3. 数据脱敏：在进行分析时，考虑使用数据脱敏技术保护用户隐私。
-4. 审计日志：记录所有对系统的访问和操作，以便追踪和审计。
+### 关系聚合
 
-## 11. 系统维护和优化
+**实现方式**:
+- 在UserRelations表中添加relation_group字段,用于标识关系组
+- 在G6渲染时,首先显示聚合后的关系,点击后展开详细关系
 
-1. 定期更新：根据新的安全威胁和用户行为模式更新检测规则和算法。
-2. 性能优化：监控查询性能，优化数据库索引和查询语句。
-3. 存储管理：实施数据归档和清理策略，管理数据增长。
+**SQL示例**:
+```sql
+SELECT 
+  user_id_1, 
+  user_id_2, 
+  GROUP_CONCAT(relation_type) as relation_types,
+  COUNT(*) as relation_count
+FROM UserRelations
+GROUP BY user_id_1, user_id_2, relation_group;
+```
 
-## 12. 未来扩展
+### 圈检测
 
-1. 实时分析：引入流处理技术，实现实时异常检测。
-2. AI增强：集成更先进的机器学习和深度学习模型。
-3. 跨平台集成：扩展系统以包含更多数据源，如移动设备和云服务活动。
+**实现方式**:
+- 利用图算法(如Bron–Kerbosch算法)在UserRelations表数据上进行团检测
+- 将检测结果存储在新建的UserGroups表中
 
-## 13. 注意事项
+**表结构示例**:
+```sql
+CREATE TABLE UserGroups (
+  group_id VARCHAR PRIMARY KEY,
+  group_members TEXT,
+  detection_date TIMESTAMP
+);
+```
 
-- 请确保在处理和分析数据时遵守相关的数据保护和隐私法规。
-- 定期备份数据库以防数据丢失。
-- 系统生成的哈希值仅用于示例，生产环境中应使用更安全的哈希算法。
+### 圈查询
 
-## 14. 贡献指南
+**实现方式**:
+- 基于UserGroups表和UserRelations表,查询特定朋友圈的所有节点及关系
 
-欢迎对本项目提出改进建议或直接贡献代码。请遵循标准的Fork-and-Pull Request工作流。项目持续更新中。
+**SQL示例**:
+```sql
+SELECT ur.*
+FROM UserRelations ur
+JOIN UserGroups ug ON FIND_IN_SET(ur.user_id_1, ug.group_members) AND FIND_IN_SET(ur.user_id_2, ug.group_members)
+WHERE ug.group_id = :group_id;
+```
 
-## 15. 许可证
+### 3.6 高效分析
 
-本项目采用 MIT 许可证 - 详情请见 [LICENSE.md](LICENSE.md) 文件。
+#### 数据过滤
 
-## 16. 联系方式
+**实现方式**:
+- 在Activity表中添加importance_level字段
+- 根据用户设置的阈值筛选节点和边
 
-项目维护者 - [@jerry609](https://github.com/jerry609)
+**SQL示例**:
+```sql
+SELECT * FROM Activity
+WHERE importance_level >= :threshold
+  AND datetime BETWEEN :start_date AND :end_date;
+```
+
+#### 标记节点及边
+
+**实现方式**:
+- 在User表和UserRelations表中添加is_marked字段
+- 在G6渲染时,对标记的节点和边使用特殊样式
+
+#### 隐藏/显示节点
+
+**实现方式**:
+- 在User表中添加is_visible字段
+- G6渲染时根据is_visible字段决定是否显示节点及相关边
+
+
+## API设计
+
+1. `/api/graph/expand`: 关系扩散API
+2. `/api/graph/predict`: 关系预判API
+3. `/api/graph/aggregate`: 关系聚合API
+4. `/api/graph/detect-circle`: 圈检测API
+5. `/api/graph/query-circle`: 圈查询API
+6. `/api/graph/filter`: 数据过滤API
+7. `/api/graph/mark`: 标记节点和边API
+8. `/api/graph/visibility`: 控制节点可见性API
+
